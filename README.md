@@ -16,6 +16,11 @@ The badge will only display on objects with a Rightsstatements.org URI in some d
 
 Install as usual, see [https://www.drupal.org/docs/extending-drupal/installing-modules](https://www.drupal.org/docs/extending-drupal/installing-modules) for further information.
 
+
+```
+composer require lehigh-university-libraries/islandora_rights_statements
+```
+
 ## Configuration
 
 Use the Rights Statement badge field formatter on your `field_rights`
