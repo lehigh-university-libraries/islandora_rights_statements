@@ -1,0 +1,11 @@
+{
+    "name": "lehigh-university-libraries/islandora_rights_statements",
+    "type": "drupal-module",
+    "description": "Displays a rightsstatements.org badge.",
+    "homepage": "https://github.com/lehigh-university-libraries/islandora_rights_statements",
+    "minimum-stability": "dev",
+    "support": {
+        "issues": "https://github.com/lehigh-university-libraries/islandora_rights_statements/issues",
+        "source": "https://github.com/lehigh-university-libraries/islandora_rights_statements"
+    }
+}
