@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains islandora_rights_statements.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function islandora_rights_statements_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the islandora_rights_statements module.
+    case 'help.page.islandora_rights_statements':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Displays a rightsstatements.org badge') . '</p>';
+      return $output;
+
+    default:
+  }
+}

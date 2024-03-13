@@ -1,0 +1,5 @@
+name: Islandora Rights Statements
+type: module
+description: Displays a rightsstatements.org badge.
+core_version_requirement: ^10
+package: 'Islandora Tools'
