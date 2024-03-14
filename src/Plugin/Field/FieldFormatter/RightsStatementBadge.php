@@ -144,35 +144,12 @@ class RightsStatementBadge extends FormatterBase {
     }
     $result = json_decode($response->getBody()->getContents(), TRUE);
 
-    $location = $result['headers']['Location'];
-    $responseRedirect = $client->request('GET', 'http://rightsstatements.org' . $location, $options);
-    $resultRedirect = json_decode($responseRedirect->getBody()->getContents(), TRUE);
-
-    $definitions = $resultRedirect['definition'];
-
     $preferredLanguage = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
     $preferredLanguage = substr(strtok(strip_tags($preferredLanguage), ','), 0, 2);
     $possibleLanguages = ['de', 'et', 'fi', 'fr', 'pl', 'en', 'sv-fi', 'es'];
     $language = in_array($preferredLanguage, $possibleLanguages) ? $preferredLanguage : 'en';
 
-    $definitionValue = '';
-    foreach ($definitions as $definition) {
-      if ($definition['@language'] == $language) {
-        $definitionValue = $definition['@value'];
-        break;
-      }
-    }
-
-    $notes = $resultRedirect['note'];
-    $noteValue = '';
-    foreach ($notes as $note) {
-      if ($note['@language'] == $language) {
-        $noteValue = $note['@value'];
-        break;
-      }
-    }
-
-    $titles = $resultRedirect['prefLabel'];
+    $titles = $result['prefLabel'];
     $titleValue = '';
     foreach ($titles as $title) {
       if ($title['@language'] == $language) {
@@ -181,7 +158,7 @@ class RightsStatementBadge extends FormatterBase {
       }
     }
 
-    $altText = $titleValue . '<p>' . $definitionValue . '</p><p>' . $noteValue . '</p>';
+    $altText = $titleValue;
     $badge = [
       '#type' => 'link',
       '#title' => [
