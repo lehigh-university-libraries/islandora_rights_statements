@@ -2,6 +2,7 @@
     "name": "lehigh-university-libraries/islandora_rights_statements",
     "type": "drupal-module",
     "description": "Displays a rightsstatements.org badge.",
+    "license": "GPL-3.0-or-later",
     "homepage": "https://github.com/lehigh-university-libraries/islandora_rights_statements",
     "minimum-stability": "dev",
     "support": {
