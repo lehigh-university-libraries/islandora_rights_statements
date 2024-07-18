@@ -6,6 +6,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
+use Drupal\Component\Utility\Xss;
 
 /**
  * Plugin implementation of the 'islandora_rights_statements' formatter.
@@ -15,7 +16,9 @@ use Drupal\Core\Url;
  *   label = @Translation("Islandora Rights Statement Badge"),
  *   field_types = {
  *     "string",
- *     "text"
+ *     "text",
+ *     "text_long",
+ *     "text_with_summary"
  *   }
  * )
  */
@@ -98,14 +101,18 @@ class RightsStatementBadge extends FormatterBase {
     $color = $this->getSetting('image_color');
     $style = $this->getSetting('button_style');
 
+    $uri = strip_tags($uri);
+    $uri = trim($uri);
+
     // Just print the text if this isn't a rights statement URI.
     if (filter_var($uri, FILTER_VALIDATE_URL) === FALSE || strpos($uri, '/vocab/') === FALSE) {
-      return ['#markup' => $uri];
+      return ['#markup' => Xss::filter($uri)];
     }
 
     // Extract just the statement terms from the URI to use in image URL.
     $terms = substr($uri, strpos($uri, "/vocab/") + 7);
     $terms = substr($terms, 0, strlen($terms) - 5);
+
     if ($style == 'icons') {
       $style_filename = "Icon-Only.";
       // In case an unavailable color is picked.
