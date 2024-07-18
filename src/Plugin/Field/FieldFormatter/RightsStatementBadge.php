@@ -2,11 +2,11 @@
 
 namespace Drupal\islandora_rights_statements\Plugin\Field\FieldFormatter;
 
+use Drupal\Component\Utility\Xss;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\Component\Utility\Xss;
 
 /**
  * Plugin implementation of the 'islandora_rights_statements' formatter.
@@ -101,16 +101,16 @@ class RightsStatementBadge extends FormatterBase {
     $color = $this->getSetting('image_color');
     $style = $this->getSetting('button_style');
 
-    $uri = strip_tags($uri);
-    $uri = trim($uri);
+    $rightsUri = strip_tags($uri);
+    $rightsUri = trim($rightsUri);
 
     // Just print the text if this isn't a rights statement URI.
-    if (filter_var($uri, FILTER_VALIDATE_URL) === FALSE || strpos($uri, '/vocab/') === FALSE) {
+    if (filter_var($rightsUri, FILTER_VALIDATE_URL) === FALSE || strpos($rightsUri, '/vocab/') === FALSE) {
       return ['#markup' => Xss::filter($uri)];
     }
 
     // Extract just the statement terms from the URI to use in image URL.
-    $terms = substr($uri, strpos($uri, "/vocab/") + 7);
+    $terms = substr($rightsUri, strpos($rightsUri, "/vocab/") + 7);
     $terms = substr($terms, 0, strlen($terms) - 5);
 
     if ($style == 'icons') {
@@ -144,10 +144,10 @@ class RightsStatementBadge extends FormatterBase {
 
     $client = \Drupal::httpClient();
     try {
-      $response = $client->request('GET', $uri, $options);
+      $response = $client->request('GET', $rightsUri, $options);
     }
     catch (\Exception $e) {
-      return ['#markup' => $uri];
+      return ['#markup' => Xss::filter($uri)];
     }
     $result = json_decode($response->getBody()->getContents(), TRUE);
 
@@ -178,7 +178,7 @@ class RightsStatementBadge extends FormatterBase {
           'title' => $titleValue,
         ],
       ],
-      '#url' => Url::fromUri($uri),
+      '#url' => Url::fromUri($rightsUri),
       '#options' => [
         'attributes' => [
           'target' => '_blank',
